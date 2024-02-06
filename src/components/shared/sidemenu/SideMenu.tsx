@@ -10,6 +10,7 @@ import {
 import { NavLink } from "react-router-dom";
 import "./SideMenu.css";
 import { SideMenuItem } from "./SideMenuItem";
+import { useAuthStore } from "../../../stores";
 
 interface MenuItem {
   title: string;
@@ -52,6 +53,10 @@ const menuItems: MenuItem[] = [
 ];
 
 export const SideMenu = () => {
+
+  const userName = useAuthStore((state) => state.user?.fullName || 'No user');
+  const logoutUser = useAuthStore(state => state.logoutUser)
+
   return (
     <div
       id="menu"
@@ -79,7 +84,7 @@ export const SideMenu = () => {
               alt=""
             />
           </span>
-          <span className="text-sm md:text-base font-bold">Edward Tompson</span>
+          <span className="text-sm md:text-base font-bold">{userName}</span>
         </a>
       </div>
 
@@ -90,7 +95,7 @@ export const SideMenu = () => {
         ))}
 
         {/* Logout */}
-        <NavLink to={"/auth/login"} className="mt-10">
+        <a onClick={logoutUser} className="mt-10">
           <div>
             <IoLogOutOutline />
           </div>
@@ -102,7 +107,7 @@ export const SideMenu = () => {
               Cerrar sesión
             </span>
           </div>
-        </NavLink>
+        </a>
       </nav>
     </div>
   );
