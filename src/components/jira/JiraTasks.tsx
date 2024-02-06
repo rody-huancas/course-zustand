@@ -1,10 +1,8 @@
-import { DragEvent, useState } from "react";
 import { IoAddOutline, IoCheckmarkCircleOutline } from "react-icons/io5";
 import { Task, TaskStatus } from "../../interfaces";
 import { SingleTask } from "./SingleTask";
-import { useTaskStore } from "../../stores";
 import classNames from "classnames";
-import Swal from "sweetalert2";
+import { useTasks } from "../../hooks/useTasks";
 
 interface Props {
   title: string;
@@ -13,46 +11,14 @@ interface Props {
 }
 
 export const JiraTasks = ({ title, status, tasks }: Props) => {
-  const isDragging = useTaskStore((state) => !!state.draggingTaskId);
-  const draggingTaskId = useTaskStore((state) => state.draggingTaskId);
-  const changeTaskStatus = useTaskStore((state) => state.changeTaskStatus);
-  const onTaskDrop = useTaskStore((state) => state.onTaskDrop);
-  const addTask = useTaskStore((state) => state.addTask);
-
-  const [onDragOver, setOnDragOver] = useState(false);
-
-  const handleAddTask = async () => {
-    const { isConfirmed, value } = await Swal.fire({
-      title: "Nueva tarea",
-      input: "text",
-      inputLabel: "Nombre de la tarea",
-      inputPlaceholder: "Ingresa el nombre de la tarea",
-      showCancelButton: true,
-      inputValidator: (value) => {
-        if (!value) {
-          return "Debe ingresar el nombre para una tarea";
-        }
-      },
-    });
-    if (!isConfirmed) return;
-
-    addTask(value, status);
-  };
-
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setOnDragOver(true);
-  };
-  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setOnDragOver(false);
-  };
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setOnDragOver(false);
-    changeTaskStatus(draggingTaskId!, status);
-    onTaskDrop(status);
-  };
+  const {
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleAddTask,
+    isDragging,
+    onDragOver,
+  } = useTasks({ status });
 
   return (
     <div
