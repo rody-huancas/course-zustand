@@ -21,7 +21,7 @@ const storageApi: StateStorage = {
       body: value,
     }).then((res) => res.json());
 
-    console.count("setItem");
+    // console.count("setItem");
     return;
   },
   removeItem: function (name: string): void | Promise<void> {
