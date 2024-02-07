@@ -7,7 +7,7 @@ services:
     depends_on:
       - db
     ports:
-      - ${PORT}:${PORT}<
+      - ${PORT}:${PORT}
     environment:
       APP_VERSION: ${APP_VERSION}
       STAGE: ${STAGE}

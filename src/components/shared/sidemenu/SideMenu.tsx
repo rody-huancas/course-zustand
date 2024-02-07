@@ -7,7 +7,6 @@ import {
   IoListOutline,
   IoAccessibilityOutline,
 } from "react-icons/io5";
-import { NavLink } from "react-router-dom";
 import "./SideMenu.css";
 import { SideMenuItem } from "./SideMenuItem";
 import { useAuthStore } from "../../../stores";
